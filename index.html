@@ -1,0 +1,126 @@
+<!-- Create a basic HTML page with a title, header and centered body -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Ellsworthian Parts Bible</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #666;
+        }
+
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        function sendForm() {
+            inventory = $("input[type=checkbox]:checked");
+
+            if(!inventory.length) {
+                alert("You must check at least one checkbox.");
+                return false;
+            }
+
+            initials = $("input[id=initials]").val();
+            partn = $("input[id=partn]").val();
+            inventory = inventory.get();
+            comments = $("textarea[id=comments]").val();
+
+            email = "vellsworth@bpsco.com";
+            subject = "New EPB Submission";
+            body = "𝗜𝗻𝗶𝘁𝗶𝗮𝗹𝘀: " + initials + "\n" +
+                "𝗣𝗮𝗿𝘁 #: " + partn + "\n" +
+                "𝗜𝗻𝘃𝗲𝗻𝘁𝗼𝗿𝘆: " + inventory.map(function (el) {
+                    return el.value;
+                }).join(", ") + "\n" +
+                "𝐂𝐨𝐦𝐦𝐞𝐧𝐭𝐬:\n" + comments;
+
+            window.open(`mailto:${email}?subject=${subject}&body=${encodeURIComponent(body)}`);
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>Ellsworthian Parts Bible</h1>
+    </header>
+    <main>
+        <p>Part Request Form.</p>
+        <p>
+            <form onsubmit="event.preventDefault(); sendForm();">
+                <table style="border: 0px;">
+                    <tr>
+                        <td>
+                            Initials
+                        </td>
+                        <td>
+                            <input type="text" id="initials" name="initials" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Part #
+                        </td>
+                        <td>
+                            <input type="text" id="partn" name="partn" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Depleted
+                        </td>
+                        <td>
+                            <input type="checkbox" name="inventory[]" value="Depleted">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Error
+                        </td>
+                        <td>
+                            <input type="checkbox" name="inventory[]" value="Error">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Other
+                        </td>
+                        <td>
+                            <input type="checkbox" name="inventory[]" value="Other">
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <div>
+
+                <label for="comments">Comments:</label><br/>
+                <textarea id="comments" name="comments" rows="4" cols="50"></textarea>
+                <br/>
+                <button type="submit">Submit</button>
+            </form>
+        </p>
+        <p>
+            <a href="EPB.xlsx">Download Current Bible Here</a>
+        </p>
+    </main>
+</body>
+
+</html>
